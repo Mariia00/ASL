@@ -1,7 +1,7 @@
 # file: gui_launcher.py
 
 import gradio as gr
-from gui_8 import process_image
+from sign_language_recognition7 import process_image
 import cv2
 
 
