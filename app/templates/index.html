@@ -1,0 +1,116 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>ASL + Gemini</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h2>ASL Recognition Video</h2>-->
+<!--    <img src="{{ url_for('video_feed') }}" width="640" height="480">-->
+
+<!--    <h3>Gemini Reply:</h3>-->
+<!--    <p id="gemini-response">Press the button to get a reply.</p>-->
+
+<!--&lt;!&ndash;    <button onclick="sendSentence()">Send to Gemini</button>&ndash;&gt;-->
+<!--    <button onclick="sendSentence()">Send to Gemini</button>-->
+<!--    <button onclick="resetSentence()">Reset Sentence</button>-->
+
+
+<!--</body>-->
+<!--</html>-->
+
+<!--<script>-->
+<!--    function sendSentence() {-->
+<!--    fetch('/send_sentence', { method: 'POST' })-->
+<!--        .then(response => response.json())-->
+<!--        .then(data => {-->
+<!--            document.getElementById("gemini-response").textContent = data.reply;-->
+<!--        })-->
+<!--        .catch(error => {-->
+<!--            console.error("Error:", error);-->
+<!--        });-->
+<!--    }-->
+
+<!--    function resetSentence() {-->
+<!--    fetch('/reset_sentence', { method: 'POST' })-->
+<!--        .then(response => response.json())-->
+<!--        .then(data => {-->
+<!--            document.getElementById("gemini-response").textContent = "Sentence reset.";-->
+<!--        })-->
+<!--        .catch(error => {-->
+<!--            console.error("Error:", error);-->
+<!--        });-->
+
+<!--    }-->
+<!--</script>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ASL + Gemini</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .video-frame {
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        }
+
+    </style>
+</head>
+<body>
+<div class="container text-center py-5">
+    <h2 class="mb-4 text-primary">ASL Recognition + Gemini AI</h2>
+
+    <div class="mb-4">
+        <img src="{{ url_for('video_feed') }}" class="video-frame img-fluid" width="640" height="480"
+             alt="ASL Video Feed">
+    </div>
+
+    <div class="mb-3">
+        <h4 class="text-secondary">Gemini Reply:</h4>
+        <p id="gemini-response" class="fs-5">Press the button to get a reply.</p>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3">
+        <button class="btn btn-primary btn-lg" onclick="sendSentence()">Send to Gemini</button>
+        <button class="btn btn-outline-danger btn-lg" onclick="resetSentence()">Reset Sentence</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function sendSentence() {
+        fetch('/send_sentence', {method: 'POST'})
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("gemini-response").textContent = data.reply;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+
+    function resetSentence() {
+        fetch('/reset_sentence', {method: 'POST'})
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("gemini-response").textContent = "Sentence reset.";
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+</script>
+</body>
+</html>
+
