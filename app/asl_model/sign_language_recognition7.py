@@ -2,6 +2,7 @@
 
 import os
 import pickle
+import threading
 import time
 
 import cv2
@@ -23,12 +24,6 @@ with open(model_path, 'rb') as f:
     model_dict = pickle.load(f)
 
 model = model_dict['model']
-
-# Initialize text-to-speech engine
-engine = pyttsx3.init()
-
-# Webcam capture
-cap = cv2.VideoCapture(0)
 
 # Mediapipe hands module setup
 mp_hands = mp.solutions.hands
@@ -66,8 +61,15 @@ def predict_character(data_aux):
 
 
 def speak_text(text):
-    engine.say(text)
-    engine.runAndWait()
+    def speak():
+        try:
+            engine = pyttsx3.init()
+            engine.say(text)
+            engine.runAndWait()
+        except RuntimeError as e:
+            print(f"[TTS Error] {e}")
+
+    threading.Thread(target=speak, daemon=True).start()
 
 
 def make_square(image):
@@ -149,6 +151,7 @@ def process_frame(frame):
                     reply = get_gemini_response(sentence)
                     print("Gemini Response:", reply)
                     speak_text(reply)
+                    # speak_text_async(reply)
                     sentence = ""
                 elif predicted_character not in ['START']:
                     sentence += predicted_character
